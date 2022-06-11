@@ -38,7 +38,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'authentication.apps.AuthenticationConfig',
-
+    'mytodo.apps.MytodoConfig',
+    'professor.apps.ProfessorConfig',
+    'student.apps.StudentConfig',
+    'exam.apps.ExamConfig',
 ]
 
 MIDDLEWARE = [
