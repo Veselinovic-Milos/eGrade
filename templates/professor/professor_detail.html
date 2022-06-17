@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    {% if request.user.is_authenticated %}
+    <p>{{request.user}}</p>
+    <a href="{% url 'logout' %}">Logout</a>
+    
+    {% else %}
+    <a href="{% url 'login' %}">Login</a> 
+    {% endif %}
+    
+    <hr>
+    <h3>Professor Details</h3>
+    <h1>Professor: {{professor}}</h1>
+    <h4>Id: {{professor.subjects}}</h4>
+    <h4>Id: {{professor.profile}}</h4>
+    <h4>Id: {{professor.lastname}}</h4>
+    <h4>Id: {{professor.email}}</h4>
+</body>
+</html>

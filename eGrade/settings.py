@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'professor.apps.ProfessorConfig',
     'student.apps.StudentConfig',
     'exam.apps.ExamConfig',
+    'course.apps.CourseConfig',
 ]
 
 MIDDLEWARE = [
@@ -59,7 +60,7 @@ ROOT_URLCONF = 'eGrade.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / "templates"],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -120,7 +121,7 @@ USE_I18N = True
 
 USE_TZ = True
 
-
+LOGIN_URL = 'login' 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    {% if request.user.is_authenticated %}
+    <p>{{request.user}}</p>
+    <a href="{% url 'logout' %}">Logout</a>
+    
+    {% else %}
+    <a href="{% url 'login' %}">Login</a> 
+    {% endif %}
+    
+    <hr>
+
+
+
+    <h2>Test name: {{exam.title}}</h2>
+    <h4>Test Id: {{exam.id}}</h4>
+    <h4>Course name: {{exam.subjectId}}</h4>
+    <h4>Student Id: {{exam.student_id}}</h4>
+    <h4>Student : {{exam.student.student.get_full_name}}</h4>
+    <h4>Professor Id: {{exam.professor_id}}</h4>
+    <h4>Professor : {{exam.professor.professor.get_full_name}}</h4>
+    <h4>Test grade: {{exam.test_grade}}</h4>
+    <h4>Number of attempts: {{exam.attempts}}</h4>
+</body>
+</html>

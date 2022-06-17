@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+
+
+    {% if request.user.is_authenticated %}
+    <p>{{request.user}}</p>
+    <a href="{% url 'logout' %}">Logout</a>
+    
+    {% else %}
+    <a href="{% url 'login' %}">Login</a> 
+    {% endif %}
+    
+    <hr>
+
+    <h1>My Task List</h1>
+    <a href="{% url 'mytodo-create' %}">Add Task</a>
+    
+    <form action="" method="GET">
+        <input type="text" name="search-area" value="{{search_input}}">
+        <input type="submit" name="" id="" value="search">
+    </form>
+    
+    <table>
+        <tr>
+            <th>DATA</th>
+            <th></th>
+            <th></th>
+
+        </tr>
+        {% for mytodo in object_list %}
+        <tr>
+            <td>{{mytodo.title}}</td>
+            <td><a href="{% url 'mytodo' mytodo.id %}">View</a></td>
+            <td><a href="{% url 'mytodo-update' mytodo.id %}">Edit</a></td>
+            <td><a href="{% url 'mytodo-delete' mytodo.id  %}">Delete</a></td>
+
+        </tr>
+        {% empty %}
+        <h3>No items in list</h3>
+        {% endfor %}
+    </table>
+</body>
+</html>
