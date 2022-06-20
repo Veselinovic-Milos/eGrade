@@ -7,8 +7,8 @@ from .forms import *
 # Create your views here.
 class RegisterPage(generic.CreateView):
     form_class = CustomUserCreationForm
-    success_url = reverse_lazy('register')
-    template_name = 'templates/authentication/register.html'
+    success_url = reverse_lazy('login')
+    template_name = 'authentication/register.html'
     redirect_authenticated_user: bool = True
     def form_valid(self, form):
         user = form.save()
@@ -18,15 +18,12 @@ class RegisterPage(generic.CreateView):
     
     def get(self, *args, **kwargs):
         if self.request.user.is_authenticated:
-            return redirect('mytodos')
+            return redirect('login/')
         return super(RegisterPage, self).get(*args, **kwargs)
 
 class CustomeLogineView(LoginView):
-    template_name: str = 'templates/authentication/login.html'
+    template_name = 'authentication/login.html'
     fields = '__all__'
     redirect_authenticated_user: bool = True
-    
-
-    def get_success_url(self):
-        return reverse_lazy('login')
+    success_url= reverse_lazy('')
 
