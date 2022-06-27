@@ -19,15 +19,21 @@
     <hr>
 
 
-
+    
     <h2>Test name: {{exam.title}}</h2>
     <h4>Test Id: {{exam.id}}</h4>
-    <h4>Course name: {{exam.subjectId}}</h4>
-    <h4>Student Id: {{exam.student_id}}</h4>
-    <h4>Student : {{exam.student.student.get_full_name}}</h4>
-    <h4>Professor Id: {{exam.professor_id}}</h4>
-    <h4>Professor : {{exam.professor.professor.get_full_name}}</h4>
-    <h4>Test grade: {{exam.test_grade}}</h4>
+    {% for obj in course %} 
+    <h4>Course name: {{ obj.title }}</h4>
+    {% endfor %}
+    {% for obj in student %} 
+    <h4>Student: {{ obj.student.get_full_name }}</h4>
+    {% endfor %}
+    {% for prof in professor %}
+    <h4>Professor: {{ prof.professor.get_full_name }}</h4>
+    {% endfor %}
+    <h4>Test grade: {{exam.exam_grade}}</h4>
+    <h4>Date of Testing: {{ exam.exam_date }}</h4>
     <h4>Number of attempts: {{exam.attempts}}</h4>
+    
 </body>
 </html>

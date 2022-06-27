@@ -16,24 +16,12 @@
     {% endif %}
     
     <hr>
+    <h3>Student Form</h3>
+    <form method='POST'action="" enctype="multipart/form-data">
 
-    <table>
-        <tr>
-            <th>DATA</th>
-            <th></th>
-            <th></th>
-
-        </tr>
-        {% for professor in object_list %}
-        <tr>
-            <td>{{professor.professor.get_full_name}}</td>
-            <td><a href="{% url 'professor' professor.id %}">View</a></td>
-            
-
-        </tr>
-        {% empty %}
-        <h3>No items in list</h3>
-        {% endfor %}
-    </table>
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Submit">
+    </form>
 </body>
 </html>

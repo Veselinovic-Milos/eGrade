@@ -14,7 +14,7 @@ from django.contrib.auth import login
 # Create your views here.
 
 class CustomeLogineView(LoginView):
-    template_name: str = 'templates/authentication/login.html'
+    template_name: str = 'authentication/login.html'
     fields = '__all__'
     redirect_authenticated_user: bool = True
 
@@ -24,7 +24,7 @@ class CustomeLogineView(LoginView):
 
 
 class RegisterPage(FormView):
-    template_name: str = 'templates/authentication/register.html'
+    template_name: str = 'authentication/register.html'
     form_class = UserCreationForm
     redirect_authenticated_user: bool = True
     success_url = reverse_lazy('mytodos')
@@ -43,13 +43,14 @@ class RegisterPage(FormView):
 class MyToDoList(LoginRequiredMixin, ListView):
     model = MyToDo
     context_object_name = 'mytodo'
-    template_name: str = '/mytodo/mytodo_list.html'
+    template_name: str = 'mytodo/mytodo_list.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['mytodos'] = context['mytodos'].filter(user=self.request.user)
+        print(context)
+        context['mytodo'] = context['mytodo'].filter(student_id=self.request.user.id)
         # next line doesnt need user arg because its already filtred by user in prev line
-        context['count'] = context['mytodos'].filter(complete=False).count()
+        context['count'] = context['mytodo'].filter(complete=False).count()
         
         # adding search logic
 
@@ -63,13 +64,13 @@ class MyToDoList(LoginRequiredMixin, ListView):
 class MyToDoDetail(LoginRequiredMixin, DetailView):
     model = MyToDo
     context_object_name = 'mytodo'
-    template_name: str = '/mytodo/mytodo_detail.html'
+    template_name: str = 'mytodo/mytodo_detail.html'
 
 class MyToDoCreate(LoginRequiredMixin, CreateView):
     model = MyToDo
     fields = ['title', 'desciptions', 'complete']
     success_url = reverse_lazy('mytodos')
-    template_name: str = '/mytodo/mytodo_form.html'
+    template_name: str = 'mytodo/mytodo_form.html'
 
     def form_valid(self, form):
         form.instance.user = self.request.user
@@ -79,11 +80,11 @@ class MyToDoUpdate(LoginRequiredMixin, UpdateView):
     model = MyToDo
     fields = ['title', 'desciptions', 'complete']
     success_url = reverse_lazy('mytodos')
-    template_name: str = '/mytodoTemplates/mytodo_form.html'
+    template_name: str = 'mytodo/mytodo_form.html'
 
 
 class MyToDoDelete(LoginRequiredMixin, DeleteView):
     model = MyToDo
     context_object_name = 'mytodo'
     success_url = reverse_lazy('mytodos')
-    template_name: str = '/mytodo/mytodo_confirm_delete.html'
+    template_name: str = 'mytodo/mytodo_confirm_delete.html'

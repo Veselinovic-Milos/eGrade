@@ -14,7 +14,7 @@ from django.contrib.auth import login
 # Create your views here.
 
 class CustomeLogineView(LoginView):
-    template_name: str = '/authentication/login.html'
+    template_name: str = 'authentication/login.html'
     fields = '__all__'
     redirect_authenticated_user: bool = True
 
@@ -23,7 +23,7 @@ class CustomeLogineView(LoginView):
 
 
 class RegisterPage(FormView):
-    template_name: str = '/authentication/register.html'
+    template_name: str = 'authentication/register.html'
     form_class = UserCreationForm
     redirect_authenticated_user: bool = True
     success_url = reverse_lazy('courses')
@@ -42,32 +42,34 @@ class RegisterPage(FormView):
 class CourseList(LoginRequiredMixin, ListView):
     model = Course
     context_object_name = 'courses'
-    template_name: str = '/course/course_list.html'
+    template_name: str = 'course/course_list.html'
 
 class CourseDetail(LoginRequiredMixin, DetailView):
     model = Course
     context_object_name = 'course'
-    template_name: str = '/course/course_detail.html'
+    template_name: str = 'course/course_detail.html'
 
-    '''def get_form(self):
+    def get_form(self):
 
         form = self.form_class(instance=self.object)
-        return form['year']'''
+        return form['year']
+
+
 class CourseCreate(LoginRequiredMixin, CreateView):
     model = Course
     fields = '__all__'
     success_url = reverse_lazy('courses')
-    template_name: str = '/course/course_form.html'
+    template_name: str = 'course/course_form.html'
 
 class CourseUpdate(LoginRequiredMixin, UpdateView):
     model = Course
     fields = '__all__'
     success_url = reverse_lazy('courses')
-    template_name: str = '/course/course_form.html'
+    template_name: str = 'course/course_form.html'
 
 
 class CourseDelete(LoginRequiredMixin, DeleteView):
     model = Course
     context_object_name = 'course'
     success_url = reverse_lazy('courses')
-    template_name: str = '/course/course_confirm_delete.html'
+    template_name: str = 'course/course_confirm_delete.html'

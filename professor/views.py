@@ -12,14 +12,14 @@ from django.contrib.auth import login
 
 # Create your views here.
 class CustomeLogineView(LoginView):
-    template_name: str = '/authentication/login.html'
+    template_name: str = 'authentication/login.html'
     fields = '__all__'
     redirect_authenticated_user: bool = True
 
     def get_success_url(self):
         return reverse_lazy('professors')
 class RegisterPage(FormView):
-    template_name: str = '/authentication/register.html'
+    template_name: str = 'authentication/register.html'
     form_class = UserCreationForm
     redirect_authenticated_user: bool = True
     success_url = reverse_lazy('professors')
@@ -38,11 +38,11 @@ class RegisterPage(FormView):
 class ProfessorList(LoginRequiredMixin, ListView):
     model = Professor
     context_object_name = 'professors'
-    template_name: str = '/professor/professor_list.html'
+    template_name: str = 'professor/professor_list.html'
 class ProfessorDetail(LoginRequiredMixin, DetailView):
     model = Professor
     context_object_name = 'professor'
-    template_name: str = '/professor/professor_detail.html'
+    template_name: str = 'professor/professor_detail.html'
 
 
 #there is no logic for CUD and list view for Professor

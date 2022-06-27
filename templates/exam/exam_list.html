@@ -30,12 +30,12 @@
             <th></th>
 
         </tr>
-        {% for test in tests %}
+        {% for exam in object_list %}
         <tr>
-            <td>{{test.title}}</td>
-            <td><a href="{% url 'test' test.id %}">View</a></td>
-            <td><a href="{% url 'test-update' test.id %}">Edit</a></td>
-            <td><a href="{% url 'test-delete' test.id  %}">Delete</a></td>
+            <td>{{exam.title}}</td>
+            <td><a href="{% url 'exam' exam.id %}">View</a></td>
+            <td><a href="{% url 'exam-update' exam.id %}">Edit</a></td>
+            <td><a href="{% url 'exam-delete' exam.id  %}">Delete</a></td>
 
         </tr>
         {% empty %}

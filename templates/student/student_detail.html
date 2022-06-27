@@ -16,24 +16,20 @@
     {% endif %}
     
     <hr>
-
-    <table>
-        <tr>
-            <th>DATA</th>
-            <th></th>
-            <th></th>
-
-        </tr>
-        {% for professor in object_list %}
-        <tr>
-            <td>{{professor.professor.get_full_name}}</td>
-            <td><a href="{% url 'professor' professor.id %}">View</a></td>
-            
-
-        </tr>
-        {% empty %}
-        <h3>No items in list</h3>
-        {% endfor %}
-    </table>
+    <h3>Student Details</h3>
+    <h2>student: {{student.student.get_full_name}}</h2>
+    <h4>Email Adress: {{student.student}}</h4>
+    <h4>Class Year: {{student.classYear}}</h4>
+    <h4>Semester: {{student.semester}}</h4>
+    {% for object in student_list.all %}
+    <!-- Display Objects -->
+    <li>{{ course.course.students.title }}</li>
+   
+ 
+    <hr/>
+    <!-- If object_list is empty  -->
+    {% empty %}
+    <li>No objects yet.</li>
+    {% endfor %}
 </body>
 </html>

@@ -27,7 +27,7 @@
             <th></th>
 
         </tr>
-        {% for course in object_list %} 
+        {% for course in courses %} 
         <tr>
             <td>{{course.title}}</td>
             <td><a href="{% url 'course' course.id %}">View</a></td>

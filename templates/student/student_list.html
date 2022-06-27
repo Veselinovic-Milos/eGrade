@@ -7,6 +7,9 @@
     <title>Document</title>
 </head>
 <body>
+
+
+
     {% if request.user.is_authenticated %}
     <p>{{request.user}}</p>
     <a href="{% url 'logout' %}">Logout</a>
@@ -17,6 +20,14 @@
     
     <hr>
 
+    <h1>Student's List</h1>
+    <a href="{% url 'student-create' %}">Add Student</a>
+    
+    <form action="" method="GET">
+        <input type="text" name="search-area" value="{{search_input}}">
+        <input type="submit" name="" id="" value="search">
+    </form>
+    
     <table>
         <tr>
             <th>DATA</th>
@@ -24,12 +35,12 @@
             <th></th>
 
         </tr>
-        {% for professor in object_list %}
+        {% for student in object_list %}
         <tr>
-            <td>{{professor.professor.get_full_name}}</td>
-            <td><a href="{% url 'professor' professor.id %}">View</a></td>
+            <td>{{student.student.get_full_name}}</td>
+            <td><a href="{% url 'student' student.id %}">View</a></td>
+            <td><a href="{% url 'student-update' student.id %}">Edit</a></td>
             
-
         </tr>
         {% empty %}
         <h3>No items in list</h3>
