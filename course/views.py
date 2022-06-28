@@ -3,6 +3,9 @@ from django.shortcuts import render, redirect
 from django.views.generic.list import ListView 
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView, FormView
+from professor.models import Professor
+
+from student.models import Student
 from .models import Course
 from django.urls import reverse_lazy
 
@@ -48,11 +51,18 @@ class CourseDetail(LoginRequiredMixin, DetailView):
     model = Course
     context_object_name = 'course'
     template_name: str = 'course/course_detail.html'
-
+    queryset = Course.objects.all()
     def get_form(self):
 
         form = self.form_class(instance=self.object)
         return form['year']
+    def get_context_data(self, **kwargs: any) -> dict[str, any]:
+        context = super().get_context_data(**kwargs)
+        # getting number of students listening exact course and professors name who teaches course
+        context['students'] = Student.objects.prefetch_related('course').count()
+        context['professor'] = Professor.objects.prefetch_related('professor')
+            
+        return context
 
 
 class CourseCreate(LoginRequiredMixin, CreateView):

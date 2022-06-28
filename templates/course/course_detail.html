@@ -22,12 +22,15 @@
     <h4>Id: {{course.id}}</h4>
     <h4>Semester: {{course.semester}}</h4>
     <h4>Year: {{course.year}}</h4>
-    <h4>Exams: {{course.exams}}</h4>
-    <li>Exam date: {{ course.exams.exam_date }}</li>
+    <h4>Exams: {{course.exams}} - <li>Exam date: {{ course.exams.exam_date }}</li></h4>
+    
     <h4>Attedence: {{course.attedence}}</h4>
     <h4>Status: {{course.status}}</h4>
     <h4>Grades: {{course.grades}}</h4>
-    <h4>Students: {{course.students.student.get_full_name}}</h4>
-    <h4>Professor: {{professor.course.title}}</h4>
+
+    <h4>Students listening: {{students}}</h4>
+    {% for prof in professor %}
+    <h4>Professor: {{prof.professor.get_full_name}}</h4>
+    {% endfor %}
 </body>
 </html>

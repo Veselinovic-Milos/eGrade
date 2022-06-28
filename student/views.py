@@ -5,6 +5,7 @@ from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView, FormView
 
 from course.models import Course
+from exam.models import Exam
 from .models import Student
 from django.urls import reverse_lazy
 
@@ -66,7 +67,14 @@ class StudentDetail(LoginRequiredMixin, DetailView):
     model = Student
     context_object_name = 'student'
     template_name: str = 'student/student_detail.html'
+    queryset = Student.objects.all() 
 
+    def get_context_data(self, **kwargs: any) -> dict[str, any]:
+        context = super(StudentDetail, self).get_context_data(**kwargs)
+        context['course'] = Course.objects.prefetch_related('course')
+        context['exam'] = Exam.objects.prefetch_related('student')
+        
+        return context
 
 
 

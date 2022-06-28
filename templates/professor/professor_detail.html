@@ -18,9 +18,12 @@
     <hr>
     <h3>Professor Details</h3>
     <h2>Professor: {{professor}}</h2>
-    <h4>Courses: {{professor.professor.courses.course.title}}</h4>
-    <h4>Id: {{professor.professor.profile}}</h4>
+    {% for c in courses %}
+    <h4>Courses: </h4>
+    <li>{{ c.title }}</li>
+    {% endfor %}
+    <h4>Id: {{ professor.id }}</h4>
 
-    <h4>Id: {{professor.professor.email}}</h4>
+    <h4>Contact e-mail: {{ professor.professor.email }}</h4>
 </body>
 </html>

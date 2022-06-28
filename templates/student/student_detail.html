@@ -21,12 +21,17 @@
     <h4>Email Adress: {{student.student}}</h4>
     <h4>Class Year: {{student.classYear}}</h4>
     <h4>Semester: {{student.semester}}</h4>
-    {% for object in student_list.all %}
+    
     <!-- Display Objects -->
-    <li>{{ course.course.students.title }}</li>
-   
- 
-    <hr/>
+    <h4>Courses:</h4>
+    {% for c in course %}
+        <li>{{ c.title}}</li>
+    <h4>Exams:</h4>
+    {% for e in exam %}
+        <li>{{ e.title}} - Grade: {{ e.exam_grade }}</li>
+
+            
+    {% endfor %}
     <!-- If object_list is empty  -->
     {% empty %}
     <li>No objects yet.</li>

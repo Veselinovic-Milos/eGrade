@@ -42,15 +42,15 @@ class RegisterPage(FormView):
 
 class MyToDoList(LoginRequiredMixin, ListView):
     model = MyToDo
-    context_object_name = 'mytodo'
+    context_object_name = 'mytodos'
     template_name: str = 'mytodo/mytodo_list.html'
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        print(context)
-        context['mytodo'] = context['mytodo'].filter(student_id=self.request.user.id)
+        context = super(MyToDoList, self).get_context_data(**kwargs)
+        
+        context['mytodos'] = context['mytodos'].filter(student_id=self.request.user.id)
         # next line doesnt need user arg because its already filtred by user in prev line
-        context['count'] = context['mytodo'].filter(complete=False).count()
+        context['count'] = context['mytodos'].filter(complete=False).count()
         
         # adding search logic
 
@@ -59,6 +59,7 @@ class MyToDoList(LoginRequiredMixin, ListView):
             context['mytodos'] = context['mytodos'].filter(title__startswith=search_input) #filtering with first letter
         
         context['search_input'] = search_input
+        print(context)
         return context
 
 class MyToDoDetail(LoginRequiredMixin, DetailView):

@@ -77,10 +77,11 @@ class ExamDetail(LoginRequiredMixin, DetailView):
     template_name: str = 'exam/exam_detail.html'
     def get_context_data(self, **kwargs):
         context = super(ExamDetail,self).get_context_data(**kwargs)
+        # getting forgein key data from db for requered info about exams 
         context['course'] = Course.objects.prefetch_related('exams')
         context['student'] = Student.objects.prefetch_related('student')
         context['professor'] = Professor.objects.prefetch_related('professor')
-        print(context)
+        
         return context
 
 

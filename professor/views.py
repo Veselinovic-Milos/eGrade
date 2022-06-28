@@ -1,6 +1,8 @@
 from django.views.generic.list import ListView 
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import FormView
+
+from course.models import Course
 from .models import Professor
 from django.urls import reverse_lazy
 from django.shortcuts import redirect
@@ -43,7 +45,12 @@ class ProfessorDetail(LoginRequiredMixin, DetailView):
     model = Professor
     context_object_name = 'professor'
     template_name: str = 'professor/professor_detail.html'
+    queryset = Professor.objects.all()
 
+    def get_context_data(self, **kwargs: any) -> dict[str, any]:
+        context = super(ProfessorDetail, self).get_context_data(**kwargs)
+        context['courses'] = Course.objects.prefetch_related('professor')
 
+        return context
 #there is no logic for CUD and list view for Professor
 # That should be manageable through admin
