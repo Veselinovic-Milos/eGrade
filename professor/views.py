@@ -2,6 +2,7 @@ from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import FormView
 
+
 from course.models import Course
 from .models import Professor
 from django.urls import reverse_lazy
@@ -41,7 +42,9 @@ class ProfessorList(LoginRequiredMixin, ListView):
     model = Professor
     context_object_name = 'professors'
     template_name: str = 'professor/professor_list.html'
+
 class ProfessorDetail(LoginRequiredMixin, DetailView):
+
     model = Professor
     context_object_name = 'professor'
     template_name: str = 'professor/professor_detail.html'

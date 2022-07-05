@@ -4,7 +4,7 @@ from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView, FormView
 from professor.models import Professor
-
+from student.views import UserCustomeAcessMixin
 from student.models import Student
 from .models import Course
 from django.urls import reverse_lazy
@@ -53,9 +53,10 @@ class CourseDetail(LoginRequiredMixin, DetailView):
     template_name: str = 'course/course_detail.html'
     queryset = Course.objects.all()
     def get_form(self):
-
         form = self.form_class(instance=self.object)
         return form['year']
+
+
     def get_context_data(self, **kwargs: any) -> dict[str, any]:
         context = super().get_context_data(**kwargs)
         # getting number of students listening exact course and professors name who teaches course
@@ -65,20 +66,38 @@ class CourseDetail(LoginRequiredMixin, DetailView):
         return context
 
 
-class CourseCreate(LoginRequiredMixin, CreateView):
+class CourseCreate(UserCustomeAcessMixin, CreateView):
+    raise_exception: bool = False
+    permission_required: any = 'courses.add_courses'
+    permission_denied_message: str = 'Not valid permission group.'
+    login_url: any = '/courses/'
+    redirect_field_name: any = 'next'
+
     model = Course
     fields = '__all__'
     success_url = reverse_lazy('courses')
     template_name: str = 'course/course_form.html'
 
-class CourseUpdate(LoginRequiredMixin, UpdateView):
+class CourseUpdate(UserCustomeAcessMixin, UpdateView):
+    raise_exception: bool = False
+    permission_required: any = 'course.change_course'
+    permission_denied_message: str = 'Not valid permission group.'
+    login_url: any = '/courses/'
+    redirect_field_name: any = 'next'
+
     model = Course
     fields = '__all__'
     success_url = reverse_lazy('courses')
     template_name: str = 'course/course_form.html'
 
 
-class CourseDelete(LoginRequiredMixin, DeleteView):
+class CourseDelete(UserCustomeAcessMixin, DeleteView):
+    raise_exception: bool = False
+    permission_required: any = 'courses.delete_courses'
+    permission_denied_message: str = 'Not valid permission group.'
+    login_url: any = '/courses/'
+    redirect_field_name: any = 'next'
+
     model = Course
     context_object_name = 'course'
     success_url = reverse_lazy('courses')

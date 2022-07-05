@@ -7,7 +7,7 @@ from django.shortcuts import render, redirect
 from django.views.generic.list import ListView 
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView, FormView
-
+from student.views import UserCustomeAcessMixin
 from professor.models import Professor
 from course.models import Course
 from student.models import Student
@@ -71,6 +71,8 @@ class ExamList(LoginRequiredMixin, ListView):
 
 
 class ExamDetail(LoginRequiredMixin, DetailView):
+
+
     model = Exam
     queryset = Exam.objects.all()
     context_object_name = 'exam'
@@ -85,20 +87,38 @@ class ExamDetail(LoginRequiredMixin, DetailView):
         return context
 
 
-class ExamCreate(LoginRequiredMixin, CreateView):
+class ExamCreate(UserCustomeAcessMixin, CreateView):
+    raise_exception: bool = False
+    permission_required: any = 'exams.add_exams'
+    permission_denied_message: str = 'Not valid permission group.'
+    login_url: any = '/exams/'
+    redirect_field_name: any = 'next'
+
     model = Exam
     fields = '__all__'
     success_url = reverse_lazy('exams')
     template_name: str = 'exam/exam_form.html'
 
-class ExamUpdate(LoginRequiredMixin, UpdateView):
+class ExamUpdate(UserCustomeAcessMixin, UpdateView):
+    raise_exception: bool = False
+    permission_required: any = 'exams.change_exams'
+    permission_denied_message: str = 'Not valid permission group.'
+    login_url: any = '/exams/'
+    redirect_field_name: any = 'next'
+
     model = Exam
     fields = '__all__'
     success_url = reverse_lazy('exams')
     template_name: str = 'exam/exam_form.html'
 
 
-class ExamDelete(LoginRequiredMixin, DeleteView):
+class ExamDelete(UserCustomeAcessMixin, DeleteView):
+    raise_exception: bool = False
+    permission_required: any = 'exams.delete_exams'
+    permission_denied_message: str = 'Not valid permission group.'
+    login_url: any = '/exams/'
+    redirect_field_name: any = 'next'
+
     model = Exam
     context_object_name = 'exam'
     success_url = reverse_lazy('exams')

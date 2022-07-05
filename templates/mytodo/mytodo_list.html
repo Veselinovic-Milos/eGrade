@@ -31,12 +31,13 @@
     <table>
         <tr>
             <th>DATA</th>
-            <th>{{ count }}</th>
+            <th> {{ count }}</th>
             <th></th>
 
         </tr>
         {% for mytodo in object_list %}
         <tr>
+           
             <td>{{mytodo.title}}</td>
             <td><a href="{% url 'mytodo' mytodo.id %}">View</a></td>
             <td><a href="{% url 'mytodo-update' mytodo.id %}">Edit</a></td>
