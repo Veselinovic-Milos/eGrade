@@ -24,13 +24,14 @@
     <a href="{% url 'mytodo-create' %}">Add Task</a>
     
     <form action="" method="GET">
-        <input type="text" name="search-area" value="{{search_input}}">
+        <input type="text" name="search-area" value="{{ mytodo_searched }}">
         <input type="submit" name="" id="" value="search">
     </form>
     
     <table>
         <tr>
             <th>DATA</th>
+            <th>Not completed: </th>
             <th> {{ count }}</th>
             <th></th>
 

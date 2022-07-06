@@ -56,22 +56,24 @@ class MyToDoList(UserCustomeAcessMixin, ListView):
     queryset = MyToDo.objects.all()
 
     def get_context_data(self, **kwargs):
-        context = super(MyToDoList, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         
         context['mytodo'] = context['mytodo'].filter(student_id=self.request.user.id)
-        print(context)
+     
         # next line doesnt need user arg because its already filtred by user in prev line
-        context['count'] = context['mytodo'].filter(complete=False).count()
-        
-        # adding search logic
+        context['count'] = MyToDo.objects.filter(complete=False).count()
 
-        search_input = self.request.GET.get('search-area') or ''
-        if search_input:
-            context['mytodo'] = context['mytodo'].filter(title__startswith=search_input) #filtering with first letter
-        
-        context['search_input'] = search_input
-        print(context)
         return context
+
+
+        # adding search logic
+    def get_queryset(self):
+        search_input = self.request.GET.get('search-area') or ''
+        
+        mytodo_searched = MyToDo.objects.filter(title__icontains=search_input)
+        
+        return mytodo_searched
+
 
 class MyToDoDetail(UserCustomeAcessMixin, DetailView):
     raise_exception: bool = False
