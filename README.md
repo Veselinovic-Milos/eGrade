@@ -9,6 +9,7 @@ With in mind to add in future basic data analysis of student grades ,atempts for
 Tech Stack used/planed :<br/>
  BackEnd:<br/>
   Python - Django with session based autentication with extended built in User model and customized to email field unique as login/register insted of username.<br/>
+  Restfull APIs.<br/>
  Database:<br/>
   MySql 8.0<br/>
  FrontEnd:<br/>
