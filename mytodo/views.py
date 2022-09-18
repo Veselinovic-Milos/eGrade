@@ -3,13 +3,12 @@ from django.shortcuts import redirect, render
 from django.views.generic.list import ListView 
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView, FormView
-from student.views import UserCustomeAcessMixin
 from student.models import Student
 from .models import MyToDo
 from django.urls import reverse_lazy
 
 from django.contrib.auth.views import LoginView
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
 
@@ -42,12 +41,14 @@ class RegisterPage(FormView):
             return redirect('mytodos')
         return super(RegisterPage, self).get(*args, **kwargs)
 
-class MyToDoList(UserCustomeAcessMixin, ListView):
+class MyToDoList(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     raise_exception: bool = False
     permission_required: any = 'mytodo.view_mytodo'
     permission_denied_message: str = 'Not valid permission group.'
     login_url: any = '/mytodos/'
-    redirect_field_name: any = 'next'
+ 
+    #redirect_field_name: any = 'mytodos'
+    
 
 
     model = MyToDo
@@ -62,7 +63,7 @@ class MyToDoList(UserCustomeAcessMixin, ListView):
      
         # next line doesnt need user arg because its already filtred by user in prev line
         context['count'] = MyToDo.objects.filter(complete=False).count()
-
+        print(context)
         return context
 
 
@@ -75,24 +76,26 @@ class MyToDoList(UserCustomeAcessMixin, ListView):
         return mytodo_searched
 
 
-class MyToDoDetail(UserCustomeAcessMixin, DetailView):
+class MyToDoDetail(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
     raise_exception: bool = False
     permission_required: any = 'mytodo.view_mytodo'
     permission_denied_message: str = 'Not valid permission group.'
     login_url: any = '/mytodo/<int:pk>/'
-    redirect_field_name: any = 'next'
+    
+    #redirect_field_name: any = 'mytodos'
 
 
     model = MyToDo
     context_object_name = 'mytodo'
     template_name: str = 'mytodo/mytodo_detail.html'
 
-class MyToDoCreate(UserCustomeAcessMixin, CreateView):
+class MyToDoCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     raise_exception: bool = False
     permission_required: any = 'mytodo.add_mytodo'
     permission_denied_message: str = 'Not valid permission group.'
     login_url: any = '/mytodos/'
-    redirect_field_name: any = 'next'
+    
+    #redirect_field_name: any = 'mytodos'
 
     model = MyToDo
     fields = ['title', 'desciptions', 'complete']
@@ -103,12 +106,13 @@ class MyToDoCreate(UserCustomeAcessMixin, CreateView):
         form.instance.user = self.request.user
         return super(MyToDoCreate, self).form_valid(form)
 
-class MyToDoUpdate(UserCustomeAcessMixin, UpdateView):
+class MyToDoUpdate(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     raise_exception: bool = False
     permission_required: any = 'mytodo.change_mytodo'
     permission_denied_message: str = 'Not valid permission group.'
     login_url: any = '/mytodos/'
-    redirect_field_name: any = 'next'
+   
+    #redirect_field_name: any = 'mytodos'
 
     model = MyToDo
     fields = ['title', 'desciptions', 'complete']
@@ -116,12 +120,13 @@ class MyToDoUpdate(UserCustomeAcessMixin, UpdateView):
     template_name: str = 'mytodo/mytodo_form.html'
 
 
-class MyToDoDelete(UserCustomeAcessMixin, DeleteView):
+class MyToDoDelete(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
     raise_exception: bool = False
     permission_required: any = 'mytodo.delete_mytodo'
     permission_denied_message: str = 'Not valid permission group.'
     login_url: any = '/mytodos/'
-    redirect_field_name: any = 'next'
+    
+    #redirect_field_name: any = 'mytodos'
 
     model = MyToDo
     context_object_name = 'mytodo'

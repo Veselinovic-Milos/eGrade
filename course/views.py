@@ -4,13 +4,12 @@ from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView, FormView
 from professor.models import Professor
-from student.views import UserCustomeAcessMixin
 from student.models import Student
 from .models import Course
 from django.urls import reverse_lazy
 
 from django.contrib.auth.views import LoginView
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
 
@@ -46,12 +45,18 @@ class CourseList(LoginRequiredMixin, ListView):
     model = Course
     context_object_name = 'courses'
     template_name: str = 'course/course_list.html'
+    permission_required = 'course.view_course'
+    #redirect_field_name: any = 'courses'
 
-class CourseDetail(LoginRequiredMixin, DetailView):
+class CourseDetail(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
     model = Course
     context_object_name = 'course'
     template_name: str = 'course/course_detail.html'
+    permission_required = 'course.view_course'
+    
+    #redirect_field_name: any = 'courses'
     queryset = Course.objects.all()
+    
     def get_form(self):
         form = self.form_class(instance=self.object)
         return form['year']
@@ -66,24 +71,26 @@ class CourseDetail(LoginRequiredMixin, DetailView):
         return context
 
 
-class CourseCreate(UserCustomeAcessMixin, CreateView):
+class CourseCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     raise_exception: bool = False
-    permission_required: any = 'courses.add_courses'
+    permission_required: any = 'course.add_course'
     permission_denied_message: str = 'Not valid permission group.'
     login_url: any = '/courses/'
-    redirect_field_name: any = 'next'
+   
+    #redirect_field_name: any = 'courses'
 
     model = Course
     fields = '__all__'
     success_url = reverse_lazy('courses')
     template_name: str = 'course/course_form.html'
 
-class CourseUpdate(UserCustomeAcessMixin, UpdateView):
+class CourseUpdate(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     raise_exception: bool = False
     permission_required: any = 'course.change_course'
     permission_denied_message: str = 'Not valid permission group.'
     login_url: any = '/courses/'
-    redirect_field_name: any = 'next'
+    
+    #redirect_field_name: any = 'courses'
 
     model = Course
     fields = '__all__'
@@ -91,12 +98,13 @@ class CourseUpdate(UserCustomeAcessMixin, UpdateView):
     template_name: str = 'course/course_form.html'
 
 
-class CourseDelete(UserCustomeAcessMixin, DeleteView):
+class CourseDelete(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
     raise_exception: bool = False
-    permission_required: any = 'courses.delete_courses'
+    permission_required: any = 'course.delete_course'
     permission_denied_message: str = 'Not valid permission group.'
     login_url: any = '/courses/'
-    redirect_field_name: any = 'next'
+
+    #redirect_field_name: any = 'courses'
 
     model = Course
     context_object_name = 'course'

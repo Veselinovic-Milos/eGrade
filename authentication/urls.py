@@ -10,4 +10,6 @@ urlpatterns = [
     path('logout/', LogoutView.as_view(next_page='login'), name='logout'),
     # Register
     path('register/', RegisterPage.as_view(), name='register'),
+    #CSRF
+    path('csrf_cookie', GetCSRFToken.as_view(), name='csrf_cookie'),
     ]

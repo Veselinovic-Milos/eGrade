@@ -37,22 +37,27 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # Local Apps
     'authentication.apps.AuthenticationConfig',
     'mytodo.apps.MytodoConfig',
     'professor.apps.ProfessorConfig',
     'student.apps.StudentConfig',
     'exam.apps.ExamConfig',
     'course.apps.CourseConfig',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
+    
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
 ]
 
 ROOT_URLCONF = 'eGrade.urls'
@@ -122,7 +127,7 @@ USE_I18N = True
 USE_TZ = True
 
 LOGIN_URL = 'login/' 
-LOGIN_REDIRECT_URL = '/students'
+LOGIN_REDIRECT_URL = '/mytodos/'
 LOGOUT_REDIRECT_URL = '/login'
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
@@ -136,3 +141,28 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Switching from default User model to CustomeUser
 AUTH_USER_MODEL = "authentication.CustomUser"
+CORS_ALLOWED_ORIGINS = [
+    
+    'http://127.0.0.1:3000',
+    'http://localhost:3000',
+    'http://localhost:8000',
+    
+]
+CORS_ALLOW_HEADERS = ('*')
+CORS_ALLOW_CREDENTIALS = True
+CSRF_USE_SESSIONS = False
+CSRF_COOKIE_HTTPONLY = False
+CSRF_COOKIE_PATH = '/csrf_cookie'
+CSRF_COOKIE_SAMESITE = 'Strict'  
+CSRF_COOKIE_SECURE = True
+CSRF_TRUSTED_ORIGINS = [ "https://127.0.0.1:3000", "http://127.0.0.1:3000", "http://localhost:3000", "http://192.168.1.2:3000/"] 
+
+
+ALLOWED_HOSTS = ['*']
+ACCESS_CONTROL_ALLOW_ORIGIN = '*'
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_CREDENTIALS = True
+ACCESS_CONTROL_ALLOW_CREDENTIALS = True
+ACCESS_CONTROL_ALLOW_METHODS = '*'
+ACCESS_CONTROL_ALLOW_HEADERS = '*'
+

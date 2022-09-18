@@ -46,20 +46,14 @@ class RegisterPage(FormView):
             
         return super(RegisterPage, self).get(*args, **kwargs)
 
-# Custome User Mixin for restricting Permissions by Group of user.
-class UserCustomeAcessMixin(PermissionRequiredMixin):
-    def dispatch(self, request: HttpRequest, *args: any, **kwargs: any) -> HttpResponseBadRequest:
-        if (not self.request.user.is_authenticated):
-            return redirect_to_login(self.request.get_full_path(), self.get_login_url(), self.get_redirect_field_name())
-        if not self.has_permission():
-            return redirect('/students')
-        return super(UserCustomeAcessMixin, self).dispatch(request, *args, **kwargs)   
 
-class StudentList(LoginRequiredMixin, ListView):
+
+class StudentList(LoginRequiredMixin, PermissionRequiredMixin, ListView):
 
     model = Student
     context_object_name = 'students'
     template_name: str = 'student/student_list.html'
+    permission_required: any = 'student.view_student'
     
 
     def get_context_data(self, **kwargs):
@@ -77,12 +71,13 @@ class StudentList(LoginRequiredMixin, ListView):
         context['search_input'] = search_input
         return context
 
-class StudentDetail(UserCustomeAcessMixin, DetailView):
+class StudentDetail(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
     raise_exception: bool = False
     permission_required: any = 'student.view_student'
     permission_denied_message: str = 'Not valid permission group.'
     login_url: any = '/student/<int:pk>/'
-    redirect_field_name: any = 'next'
+
+    #redirect_field_name: any = 'students'
 
     model = Student
     context_object_name = 'student'
@@ -98,12 +93,13 @@ class StudentDetail(UserCustomeAcessMixin, DetailView):
 
 
 
-class StudentCreate(UserCustomeAcessMixin, CreateView):
+class StudentCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     raise_exception: bool = False
-    permission_required: any = 'students.add_students'
+    permission_required: any = 'student.add_student'
     permission_denied_message: str = 'Not valid permission group.'
     login_url: any = '/students/'
-    redirect_field_name: any = 'next'
+
+    #redirect_field_name: any = 'students'
 
     model = Student
     fields = ['classYear', 'semester', 'courses', 'exams']
@@ -114,12 +110,13 @@ class StudentCreate(UserCustomeAcessMixin, CreateView):
         form.instance.user = self.request.user
         return super(StudentCreate, self).form_valid(form)
 
-class StudentUpdate(UserCustomeAcessMixin, UpdateView):
+class StudentUpdate(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     raise_exception: bool = False
     permission_required: any = 'student.change_student'
     permission_denied_message: str = 'Not valid permission group.'
     login_url: any = '/student/<int:pk>/'
-    redirect_field_name: any = 'next'
+
+    #redirect_field_name: any = 'students'
 
 
     model = Student
@@ -128,12 +125,13 @@ class StudentUpdate(UserCustomeAcessMixin, UpdateView):
     template_name: str = 'student/student_form.html'
 
 
-class StudentDelete(UserCustomeAcessMixin, DeleteView):
+class StudentDelete(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
     raise_exception: bool = False
-    permission_required: any = 'students.delete_students'
+    permission_required: any = 'student.delete_student'
     permission_denied_message: str = 'Not valid permission group.'
     login_url: any = '/student/<int:pk>/'
-    redirect_field_name: any = 'next'
+
+    #redirect_field_name: any = 'students'
 
 
     model = Student
